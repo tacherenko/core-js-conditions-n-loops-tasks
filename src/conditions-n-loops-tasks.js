@@ -262,8 +262,19 @@ function getIndexOf(str, letter) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(/* num, digit */) {
-  throw new Error('Not implemented');
+function isContainNumber(num, digit) {
+  const targetDigit = String(digit);
+  let remainingNum = num;
+
+  while (remainingNum > 0) {
+    const currentDigit = remainingNum % 10;
+    if (currentDigit === Number(targetDigit)) {
+      return true;
+    }
+    remainingNum = Math.floor(remainingNum / 10);
+  }
+
+  return false;
 }
 
 /**
@@ -279,8 +290,25 @@ function isContainNumber(/* num, digit */) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  for (let i = 0; i < arr.length; i += 1) {
+    let leftSum = 0;
+    let rightSum = 0;
+
+    for (let j = 0; j < i; j += 1) {
+      leftSum += arr[j];
+    }
+
+    for (let k = i + 1; k < arr.length; k += 1) {
+      rightSum += arr[k];
+    }
+
+    if (leftSum === rightSum) {
+      return i;
+    }
+  }
+
+  return -1;
 }
 
 /**
@@ -304,8 +332,50 @@ function getBalanceIndex(/* arr */) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const spiralMatrix = [];
+
+  let currentRow = 0;
+  let currentCol = 0;
+  let currentValue = 1;
+  let lastRow = size - 1;
+  let lastCol = size - 1;
+
+  for (let i = 0; i < size; i += 1) {
+    spiralMatrix[i] = [];
+  }
+
+  while (currentCol <= lastCol && currentRow <= lastRow) {
+    for (let i = currentCol; i <= lastCol; i += 1) {
+      spiralMatrix[currentRow][i] = currentValue;
+      currentValue += 1;
+    }
+
+    currentRow += 1;
+
+    for (let i = currentRow; i <= lastRow; i += 1) {
+      spiralMatrix[i][lastCol] = currentValue;
+      currentValue += 1;
+    }
+
+    lastCol -= 1;
+
+    for (let i = lastCol; i >= currentCol; i -= 1) {
+      spiralMatrix[lastRow][i] = currentValue;
+      currentValue += 1;
+    }
+
+    lastRow -= 1;
+
+    for (let i = lastRow; i >= currentRow; i -= 1) {
+      spiralMatrix[i][currentCol] = currentValue;
+      currentValue += 1;
+    }
+
+    currentCol += 1;
+  }
+
+  return spiralMatrix;
 }
 
 /**
